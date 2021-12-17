@@ -1,4 +1,5 @@
-﻿using Hw2.Exercise4.Sorting;
+﻿using System.Diagnostics;
+using Hw2.Exercise4.Sorting;
 
 namespace Hw2.Exercise4
 {
@@ -37,11 +38,14 @@ namespace Hw2.Exercise4
             if (sort is null)
                 return ReturnCode.UnknownSort;
 
+            var stopWatch = Stopwatch.StartNew();
             var array = request.Array;
             sort.Sort(array);
+            stopWatch.Stop();
 
             var output = string.Concat(array.Select(item => $"{item};"));
             Console.WriteLine(output);
+            Console.WriteLine("At '{0}'", stopWatch.Elapsed);
 
             return ReturnCode.Success;
         }
