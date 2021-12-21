@@ -1,4 +1,6 @@
-﻿namespace Hw2.Exercise2
+﻿using System.Globalization;
+
+namespace Hw2.Exercise2
 {
     /// <summary>
     /// Currency exchange request.
@@ -42,7 +44,43 @@
         /// </returns>
         public static bool TryParse(string[] args, out ExchangeRequest request)
         {
-            throw new NotImplementedException("Should be implemented by executor");
+
+            if (args is null || args.Length == 0)
+            {
+                request = new ExchangeRequest();
+                return false;
+            }
+
+            var str = args[0].Replace(',', '.');
+            var listArgs = args.ToList();
+            listArgs.RemoveAt(0);
+            string? firstCurrency = null;
+            string? secondCurrency = null;
+
+            foreach (var i in listArgs)
+            {
+                if (firstCurrency is not null)
+                {
+                    secondCurrency = i.ToUpper(CultureInfo.InvariantCulture);
+                    break;
+                }
+                firstCurrency = i.ToUpper(CultureInfo.InvariantCulture);
+            }
+
+            if (firstCurrency is null || secondCurrency is null)
+            {
+                request = new ExchangeRequest();
+                return false;
+            }
+
+            if (decimal.TryParse(str, NumberStyles.Number, CultureInfo.InvariantCulture, out var value))
+            {
+                request = new ExchangeRequest(value, firstCurrency, secondCurrency);
+                return true;
+            }
+
+            request = new ExchangeRequest();
+            return false;
         }
     }
 }

@@ -16,7 +16,23 @@
         /// <returns>Returns requested sort algorithm; returns <c>null</c> if algorithm wasn't resolved.</returns>
         public SortBase? ResolveSort(string algorithm)
         {
-            throw new NotImplementedException("Should be implemented by executor");
+
+            if (algorithm is null)
+            {
+                return null;
+            }
+
+            switch (algorithm.ToLowerInvariant())
+            {
+                case "bubble":
+                    return new BubbleSort();
+                case "system":
+                    return new SystemSort();
+                case "quick":
+                    return new QuickSort();
+                default:
+                    return null;
+            }
         }
     }
 }

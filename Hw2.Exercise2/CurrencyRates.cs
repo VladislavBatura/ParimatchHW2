@@ -1,4 +1,6 @@
-﻿namespace Hw2.Exercise2
+﻿using System.Globalization;
+
+namespace Hw2.Exercise2
 {
     /// <summary>
     /// Currency exchange service.
@@ -20,7 +22,23 @@
         /// </exception>
         public CurrencyRates(IDictionary<string, decimal> rates)
         {
-            throw new NotImplementedException("Should be implemented by executor");
+            if (rates is null)
+            {
+                throw new ArgumentNullException(nameof(rates));
+            }
+
+            foreach (var rate in rates)
+            {
+                if (rates.ContainsKey(rate.Key.ToLower(CultureInfo.InvariantCulture)))
+                {
+                    throw new ArgumentException(null, nameof(rates));
+                }
+                if (rate.Value is <= 0)
+                {
+                    throw new ArgumentException(null, nameof(rates));
+                }
+            }
+
         }
 
         /// <summary>
@@ -35,7 +53,47 @@
         /// </exception>
         public decimal? Exchange(ExchangeRequest request)
         {
-            throw new NotImplementedException("Should be implemented by executor");
+            if (!request.IsValid)
+            {
+                throw new ArgumentException(null, nameof(request));
+            }
+
+            decimal result;
+            switch (request.DestCurrency.ToLower(CultureInfo.InvariantCulture))
+            {
+                case "usd":
+                    if (string.Equals(request.SourceCurrnecy.ToLower(CultureInfo.InvariantCulture),
+                        "eur", StringComparison.Ordinal))
+                    {
+                        result = request.Amount * 1.2m;
+                        break;
+                    }
+                    else if (string.Equals(request.SourceCurrnecy.ToLower(CultureInfo.InvariantCulture),
+                        "usd", StringComparison.Ordinal))
+                    {
+                        result = request.Amount;
+                        break;
+                    }
+                    return null;
+                case "eur":
+                    if (string.Equals(request.SourceCurrnecy.ToLower(CultureInfo.InvariantCulture),
+                        "usd", StringComparison.Ordinal))
+                    {
+                        result = request.Amount / 1.2m;
+                        break;
+                    }
+                    else if (string.Equals(request.SourceCurrnecy.ToLower(CultureInfo.InvariantCulture),
+                        "eur", StringComparison.Ordinal))
+                    {
+                        result = request.Amount;
+                        break;
+                    }
+                    return null;
+                default:
+                    return null;
+            }
+
+            return result;
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Hw2.Exercise4
+﻿using System.Globalization;
+
+namespace Hw2.Exercise4
 {
     /// <summary>
     /// Sort request.
@@ -25,7 +27,16 @@
         /// </exception>
         public SortRequest(string sortAlgorithm, int[] array)
         {
-            throw new NotImplementedException("Should be implemented by executor");
+            if (sortAlgorithm is null)
+            {
+                throw new ArgumentNullException(nameof(sortAlgorithm));
+            }
+            else if (array is null)
+            {
+                throw new ArgumentNullException(nameof(array));
+            }
+            SortAlgorith = sortAlgorithm;
+            Array = array;
         }
 
         /// <summary>
@@ -38,7 +49,41 @@
         /// </returns>
         public static bool TryParse(string[] args, out SortRequest request)
         {
-            throw new NotImplementedException("Should be implemented by executor");
+            if (args is null || args.Length is 0)
+            {
+                request = new SortRequest("0", new int[] { 0 });
+                return false;
+            }
+
+            var algorithm = args[0].ToLowerInvariant();
+            var arrayWithoutAlgorithm = args.ToList();
+            arrayWithoutAlgorithm.RemoveAt(0);
+            var array = new int[args.Length - 1];
+
+            if (arrayWithoutAlgorithm.Count is 0)
+            {
+                request = new SortRequest(algorithm, array);
+                return true;
+            }
+
+            var listArray = new List<int>();
+            foreach (var arg in arrayWithoutAlgorithm)
+            {
+                if (int.TryParse(arg, NumberStyles.Integer, CultureInfo.InvariantCulture, out var result))
+                {
+                    listArray.Add(result);
+                }
+                else
+                {
+                    request = new SortRequest("0", new int[] { 0 });
+                    return false;
+                }
+            }
+
+            array = listArray.ToArray();
+
+            request = new SortRequest(algorithm, array);
+            return true;
         }
     }
 }

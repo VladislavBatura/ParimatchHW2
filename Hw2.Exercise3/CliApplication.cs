@@ -18,6 +18,11 @@ namespace Hw2.Exercise3
         }
 
         /// <summary>
+        /// Plugins to be registered.
+        /// </summary>
+        private IEnumerable<ICliPlugin> Plugins { get; set; }
+
+        /// <summary>
         /// Creates instance of <see cref="CliApplication"/>.
         /// </summary>
         /// <param name="plugins">Plugins collection.</param>
@@ -29,7 +34,16 @@ namespace Hw2.Exercise3
         /// </exception>
         public CliApplication(IEnumerable<ICliPlugin> plugins)
         {
-            throw new NotImplementedException("Should be implemented by executor");
+            if (plugins is null)
+            {
+                throw new ArgumentNullException(nameof(plugins));
+            }
+            else if (plugins.Contains(null))
+            {
+                throw new ArgumentException(null, nameof(plugins));
+            }
+
+            Plugins = plugins;
         }
 
         /// <summary>
@@ -43,7 +57,21 @@ namespace Hw2.Exercise3
         /// </returns>
         public ReturnCode Run(string[] args)
         {
-            throw new NotImplementedException("Should be implemented by executor");
+            try
+            {
+                foreach (var plugin in Plugins)
+                {
+                    if (plugin.Handle(args))
+                    {
+                        return ReturnCode.Success;
+                    }
+                }
+                return ReturnCode.PluginNotFound;
+            }
+            catch
+            {
+                return ReturnCode.PluginError;
+            }
         }
     }
 }

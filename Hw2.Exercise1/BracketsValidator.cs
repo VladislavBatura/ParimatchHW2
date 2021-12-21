@@ -20,7 +20,54 @@
             if (sequence is null)
                 throw new ArgumentNullException(nameof(sequence));
 
-            throw new NotImplementedException("Should be implemented by executor");
+            var array = sequence.ToCharArray();
+            if (array.Length == 0)
+            {
+                return true;
+            }
+            var stack = new Stack<char>();
+            foreach (var item in array)
+            {
+                if (item is '(' or '[' or '{' or '<')
+                {
+                    stack.Push(item);
+                }
+                else if (item is ')' or ']' or '}' or '>')
+                {
+                    if (stack.TryPop(out var result))
+                    {
+                        if (result != GetFullBracket(item))
+                        {
+                            return false;
+                        }
+                        continue;
+                    }
+                    return false;
+                }
+            }
+            if (stack.Count != 0)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private char GetFullBracket(char item)
+        {
+            switch (item)
+            {
+                case ')':
+                    return '(';
+                case '}':
+                    return '{';
+                case ']':
+                    return '[';
+                case '>':
+                    return '<';
+                default:
+                    return ' ';
+            }
         }
     }
 }
