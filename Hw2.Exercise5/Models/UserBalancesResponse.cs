@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +17,9 @@ namespace Hw2.Exercise5.Models
             {
                 if (Balances.TryAdd(i.Key, i.Value))
                 {
-
+                    // Чего-то не хватает ? ))
+                    // Поведение неопределенное - используйте .Add 
+                    // или индексатор Balances[i.key] = i.Value
                 }
             }
         }

@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using Hw2.Exercise4.Sorting;
 
 namespace Hw2.Exercise4

@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 
 namespace Hw2.Exercise2
 {
@@ -31,6 +31,10 @@ namespace Hw2.Exercise2
             {
                 if (rates.ContainsKey(rate.Key.ToLower(CultureInfo.InvariantCulture)))
                 {
+                    // message == null
+                    // Так не принято. 
+                    // Обязательно дать осмысленное лаконичное сообщение message
+                    // Например : "Invalid currency rates"
                     throw new ArgumentException(null, nameof(rates));
                 }
                 if (rate.Value is <= 0)
@@ -61,6 +65,24 @@ namespace Hw2.Exercise2
             decimal result;
             switch (request.DestCurrency.ToLower(CultureInfo.InvariantCulture))
             {
+                /*
+                Критично неправильная реализация.
+                Приложение принимает курсы валют из вне.
+                Там вообще может не быть USD, EUR
+                Решение не проходит тест с отличными от USD, EUR валютами или курсами
+                Нужно брать курс из rates
+                */
+                /*
+                Пример реализации по-быстрому :
+                return 
+                !request.IsValid
+                    ? throw new ArgumentException("Invalid request", nameof(request))
+                    : !_rates.TryGetValue(request.SourceCurrnecy, out var src)
+                        ? default
+                        : !_rates.TryGetValue(request.DestCurrency, out var dest)
+                            ? default
+                            : (decimal?)(request.Amount * src / dest);
+                */
                 case "usd":
                     if (string.Equals(request.SourceCurrnecy.ToLower(CultureInfo.InvariantCulture),
                         "eur", StringComparison.Ordinal))

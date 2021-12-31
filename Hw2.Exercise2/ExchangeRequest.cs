@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 
 namespace Hw2.Exercise2
 {
@@ -56,6 +56,10 @@ namespace Hw2.Exercise2
             listArgs.RemoveAt(0);
             string? firstCurrency = null;
             string? secondCurrency = null;
+
+            // логика неочевидна - over-engineering
+            // нет смысла так мудрить - достаточно обратится к аргументам по индексу
+            // предварительно проверив, что передано строго 3 аргумента (args.Length == 3)
 
             foreach (var i in listArgs)
             {

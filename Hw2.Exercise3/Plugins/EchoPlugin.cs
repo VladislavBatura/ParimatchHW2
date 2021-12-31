@@ -1,4 +1,4 @@
-﻿namespace Hw2.Exercise3.Plugins
+namespace Hw2.Exercise3.Plugins
 {
     /// <summary>
     /// Echo CLI plugin.

@@ -1,4 +1,4 @@
-﻿using Hw2.Exercise3.Plugins;
+using Hw2.Exercise3.Plugins;
 
 namespace Hw2.Exercise3
 {
@@ -21,6 +21,7 @@ namespace Hw2.Exercise3
         /// Plugins to be registered.
         /// </summary>
         private IEnumerable<ICliPlugin> Plugins { get; set; }
+        
 
         /// <summary>
         /// Creates instance of <see cref="CliApplication"/>.
@@ -40,9 +41,15 @@ namespace Hw2.Exercise3
             }
             else if (plugins.Contains(null))
             {
+                // message == null
+                // Так не принято. 
+                // Обязательно дать осмысленное лаконичное сообщение message
                 throw new ArgumentException(null, nameof(plugins));
             }
 
+            // Нет смысла делать Plugins - приватным свойством
+            // Обычно используют поле private readonly
+            // например private readonly ICliPlugin[] _plugins;
             Plugins = plugins;
         }
 
