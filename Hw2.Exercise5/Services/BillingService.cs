@@ -1,4 +1,4 @@
-﻿using Hw2.Exercise5.Models;
+using Hw2.Exercise5.Models;
 using System.Linq;
 
 namespace Hw2.Exercise5.Services
@@ -9,6 +9,7 @@ namespace Hw2.Exercise5.Services
     public class BillingService : IBillingService
     {
 
+        // Можно сразу проинициализировать через сокр. синтаксис : usersData = new();
         private static Dictionary<string, Dictionary<string, Dictionary<string, decimal>>> usersData = null!;
 
         /// <inheritdoc/>
@@ -150,6 +151,9 @@ namespace Hw2.Exercise5.Services
             usersData[userId][currency].Add(balance, 0m);
         }
 
+        // Сервисны методы должны бть приватными.
+        // Бывает случаи, когда есть необходимость сделат такие методы public
+        // Но не в данном контексте
         public static ITransactionResponse ReturnInvalidResponse()
         {
             return new TransactionResponse(TransactionResult.InvalidRequest, "0",
@@ -192,6 +196,8 @@ namespace Hw2.Exercise5.Services
             {
                 return false;
             }
+            // лишняя проверка
+            // но если "очень хочется", то можно проверить, чтобы св-во .Ticks > 0.
             if(request.Timestamp.ToUniversalTime() <= DateTimeOffset.MinValue.UtcDateTime)
             {
                 return false;

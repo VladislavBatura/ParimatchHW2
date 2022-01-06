@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,6 +28,7 @@ namespace Hw2.Exercise5.Models
 
         public string Metadata { get; }
 
+        // Исправить форматирование. Оставить 1 аргумент на 1 строке или 1 логичекая группа на строке (хуже, но допустимо)
         public TransactionRequest(string transactionId, decimal amount,
             string currency, string sourceUserId, string destUserId,
             string sourceBalance, string destBalance, bool overdraftAllowed,

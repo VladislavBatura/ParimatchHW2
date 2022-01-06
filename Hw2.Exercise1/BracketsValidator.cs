@@ -1,4 +1,4 @@
-﻿namespace Hw2.Exercise1
+namespace Hw2.Exercise1
 {
     /// <summary>
     /// Brackets sequence validator.
@@ -28,6 +28,19 @@
             var stack = new Stack<char>();
             foreach (var item in array)
             {
+                // In-place hardcode 
+                // Более элегантное решение использовать Dictionary<char,char>
+                // Тогда можно обращаться к откр. скобкам - Dictionary.Keys (или метод ContainsKey)
+                // А к закр. скобкам - Dictionary.Values (или метод ContainsValue)
+                /*
+                    var brackets = new Dictionary<char, char>()
+                    {
+                        ['('] = ')',
+                        ['['] = ']',
+                        ['{'] = '}',
+                        ['<'] = '>',
+                    };
+                */
                 if (item is '(' or '[' or '{' or '<')
                 {
                     stack.Push(item);
@@ -55,6 +68,7 @@
 
         private char GetFullBracket(char item)
         {
+            // если работать со словарем, то можно обойтись без switch
             switch (item)
             {
                 case ')':
